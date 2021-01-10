@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Basketball teams and their championships</comment>
+<entry key="MIA">3</entry>
+<entry key="LAL">17</entry>
+<entry key="TOR">1</entry>
+<entry key="CAV">1</entry>
+<entry key="WAR">5</entry>
+</properties>

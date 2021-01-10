@@ -1,0 +1,1 @@
+If you see this line, that means "test file for cmd line app".txt was opened successfully
