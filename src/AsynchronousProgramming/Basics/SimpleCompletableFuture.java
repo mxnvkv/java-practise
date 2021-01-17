@@ -1,4 +1,4 @@
-package AsynchronousProgramming;
+package AsynchronousProgramming.Basics;
 
 import java.util.concurrent.CompletableFuture;
 
