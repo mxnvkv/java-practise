@@ -40,7 +40,7 @@ public class AsyncExampleMulti2 {
     CompletableFuture<List<Long>> completableFuture = CompletableFuture.supplyAsync(supplyIds);
 
     CompletableFuture<List<User>> userFuture1 = completableFuture.thenComposeAsync(fetchUsers1);
-    CompletableFuture<List<User>> userFuture2 = completableFuture.thenComposeAsync((fetchUsers2));
+    CompletableFuture<List<User>> userFuture2 = completableFuture.thenComposeAsync(fetchUsers2);
 
     userFuture1.thenRun(() -> System.out.println("Users 1"));
     userFuture2.thenRun(() -> System.out.println("Users 2"));
