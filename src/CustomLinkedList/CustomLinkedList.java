@@ -42,7 +42,7 @@ public class CustomLinkedList {
     int counter = 0;
     LinkedElement currentElement = head;
 
-    while (counter < index) {
+    while (counter < index && currentElement != null) {
       currentElement = currentElement.getNextElement();
       counter++;
     }
