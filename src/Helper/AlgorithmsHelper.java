@@ -20,4 +20,18 @@ public class AlgorithmsHelper {
     return (int) (Math.random() * (quantity + 1));
   }
 
+  public static int[] joinArrays(int[] firstArray, int[] secondArray) {
+    int[] joinedArray = new int[firstArray.length + secondArray.length];
+
+    for (int i = 0; i < firstArray.length; i++) {
+      joinedArray[i] = firstArray[i];
+    }
+
+    for (int i = 0; i < secondArray.length; i++) {
+      joinedArray[i + firstArray.length] = secondArray[i];
+    }
+
+    return joinedArray;
+  }
+
 }
