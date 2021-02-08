@@ -17,16 +17,18 @@ public class HeapSort {
     buildMaxHeap(array);
 
     for (int i = array.length; i >= 1; i--) {
+
+      // swap first and last element
       int firstElement = array[0];
       array[0] = array[array.length - counter];
       array[array.length - counter] = firstElement;
 
+      // call maxHeapify() on unsorted part
       int[] sortedArray = Arrays.copyOfRange(array, array.length - counter, array.length);
       array = maxHeapify(Arrays.copyOf(array, array.length - counter), 0);
+      array = joinArrays(array, sortedArray);
 
       counter++;
-
-      array = joinArrays(array, sortedArray);
     }
 
     return array;
