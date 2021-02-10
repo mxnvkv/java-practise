@@ -1,34 +1,27 @@
 package Algorithms.HeapSort;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
+import java.text.DecimalFormat;
 import static Helper.AlgorithmsHelper.*;
 
 public class HeapSort {
   public static void main(String[] args) {
     int[] testArray = {4, 1, 3, 2, 16, 9, 10, 14, 8, 7};
-    System.out.println(Arrays.toString(heapSort(testArray)));
+    int[] filledArray = fillArray(10_000_000);
+
+    testHeapSort(filledArray);
   }
 
   public static int[] heapSort(int[] array) {
-    int counter = 1;
+    int heapSize = array.length - 1;
 
     buildMaxHeap(array);
 
-    for (int i = array.length; i >= 1; i--) {
-
-      // swap first and last element
+    for (int i = heapSize; i > 0; i--) {
       int firstElement = array[0];
-      array[0] = array[array.length - counter];
-      array[array.length - counter] = firstElement;
+      array[0] = array[i];
+      array[i] = firstElement;
 
-      // call maxHeapify() on unsorted part
-      int[] sortedArray = Arrays.copyOfRange(array, array.length - counter, array.length);
-      array = maxHeapify(Arrays.copyOf(array, array.length - counter), 0);
-      array = joinArrays(array, sortedArray);
-
-      counter++;
+      maxHeapify(array, 0, i);
     }
 
     return array;
@@ -36,24 +29,24 @@ public class HeapSort {
 
   public static int[] buildMaxHeap(int[] array) {
     for (int i = array.length / 2; i >= 0; i--) {
-      maxHeapify(array, i);
+      maxHeapify(array, i, array.length - 1);
     }
 
     return array;
   }
 
-  public static int[] maxHeapify(int[] array, int index) {
+  public static int[] maxHeapify(int[] array, int index, int heapSize) {
     int leftChildIndex = left(index);
     int rightChildIndex = right(index);
     int largestIndex;
 
-    if (leftChildIndex < array.length && array[leftChildIndex] > array[index]) {
+    if (leftChildIndex < heapSize && array[leftChildIndex] > array[index]) {
       largestIndex = leftChildIndex;
     } else {
       largestIndex = index;
     }
 
-    if (rightChildIndex < array.length && array[rightChildIndex] > array[largestIndex]) {
+    if (rightChildIndex < heapSize && array[rightChildIndex] > array[largestIndex]) {
       largestIndex = rightChildIndex;
     }
 
@@ -62,7 +55,7 @@ public class HeapSort {
       array[largestIndex] = array[index];
       array[index] = largestNumber;
 
-      maxHeapify(array, largestIndex);
+      maxHeapify(array, largestIndex, heapSize);
     }
 
     return array;
@@ -74,5 +67,15 @@ public class HeapSort {
 
   public static int right(int index) {
     return (index + 1) * 2;
+  }
+
+  public static void testHeapSort(int[] array) {
+    long start = System.currentTimeMillis();
+    heapSort(array);
+    long end = System.currentTimeMillis();
+
+    System.out.println("Heap sort");
+    System.out.println("Array length: " + new DecimalFormat("#,###").format(array.length));
+    System.out.println(String.format("Sorted time: %dms", end - start));
   }
 }
