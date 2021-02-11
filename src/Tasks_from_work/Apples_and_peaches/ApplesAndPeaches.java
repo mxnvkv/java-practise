@@ -1,23 +1,36 @@
 package Tasks_from_work.Apples_and_peaches;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ApplesAndPeaches {
   public static void main(String[] args) {
-    /*
-      input: 8, 2, 26
-
-      result:
-        8 * (0) + 2 * (13)
-        8 * (1) + 2 * (9)
-        8 * (2) + 2 * (5)
-        8 * (3) + 2 * (1)
-    */
-
-    calculateFruitsPrice(8, 2, 26);
+    readFromConsole();
   }
+
+  public static void readFromConsole() {
+    try {
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+      System.out.println("Enter apples price:");
+      int applesPrice = Integer.parseInt(br.readLine());
+
+      System.out.println("Enter peaches price:");
+      int peachesPrice = Integer.parseInt(br.readLine());
+
+      System.out.println("Enter total price:");
+      int totalPrice = Integer.parseInt(br.readLine());
+
+      calculateFruitsPrice(applesPrice, peachesPrice, totalPrice);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
 
   public static void calculateFruitsPrice(
     int applesPrice,
