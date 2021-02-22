@@ -1,4 +1,4 @@
-package CustomLinkedList;
+package Custom_Data_Structures.CustomLinkedList;
 
 public class CustomLinkedList {
   LinkedElement head;
