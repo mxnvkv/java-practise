@@ -19,12 +19,16 @@ public class NumbersCode {
   public boolean equals(Object object) {
     if (this == object) return true;
     if (object == null || getClass() != object.getClass()) return false;
+
     NumbersCode numbersCode = (NumbersCode) object;
-    return this.code.equals(numbersCode.code);
+    return code.equals(numbersCode.code);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code);
+    int hash = 12;
+    hash = 31 * hash + (code == null ? 0 : Objects.hash(code));
+
+    return hash;
   }
 }
