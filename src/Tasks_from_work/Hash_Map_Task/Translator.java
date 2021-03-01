@@ -17,7 +17,7 @@ public class Translator {
       numbers.add(letterToNumberMap.get(letter));
     }
 
-    return String.join("", numbers);
+    return String.join(" ", numbers);
   }
 
   public static String translateToWord(String number) {
@@ -28,7 +28,7 @@ public class Translator {
       letters.add( Character.toString(numberToLetterMap.get(num)) );
     }
 
-    return String.join("", letters);
+    return String.join(" ", letters);
   }
 
   private static ArrayList<String> readFromNumbersCodeFile() {
