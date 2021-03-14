@@ -9,10 +9,6 @@ public class RedBlackTree {
     root = createNode(number, Color.BLACK);
   }
 
-  public Node getRoot() {
-    return root;
-  }
-
   public void add(int number) {
     Node node = createNode(number, Color.RED);
     Node iterationNode = this.root;
@@ -41,7 +37,45 @@ public class RedBlackTree {
         parent.setRightChild(node);
       }
 
-      fixTree(node);
+      fixTreeAdd(node);
+    }
+  }
+
+  public void remove(int number) {
+    Node node = get(number); // z
+
+    Node nodeBackup = node; // y
+    Color nodeBackupColor = nodeBackup.getColor();
+
+    Node childBackup; // x
+
+    if (node.getLeftChild() == null) { // only right child
+      childBackup = node.getRightChild();
+      transplant(node, node.getRightChild());
+    } else if (node.getRightChild() == null) { // only left child
+      childBackup = node.getLeftChild();
+      transplant(node, node.getLeftChild());
+    } else {
+      // both children are present
+
+      nodeBackup = treeMinimum(node.getRightChild());
+      nodeBackupColor = nodeBackup.getColor();
+      childBackup = nodeBackup.getRightChild();
+
+      if (nodeBackup.getParent() == node) {
+        childBackup.setParent(nodeBackup);
+      } else {
+        transplant(nodeBackup, nodeBackup.getRightChild());
+      }
+
+      transplant(node, nodeBackup);
+      nodeBackup.setLeftChild(node.getLeftChild());
+      nodeBackup.getLeftChild().setParent(nodeBackup);
+      nodeBackup.setColor(node.getColor());
+    }
+
+    if (nodeBackupColor == Color.BLACK) {
+      fixTreeDelete(childBackup);
     }
   }
 
@@ -65,7 +99,7 @@ public class RedBlackTree {
     return node;
   }
 
-  private void fixTree(Node node) {
+  private void fixTreeAdd(Node node) {
     while (node.getParent() != null && node.getParent().getColor() == Color.RED) {
       Node parent = node.getParent();
       Node grandparent = node.getParent().getParent();
@@ -112,6 +146,66 @@ public class RedBlackTree {
     }
 
     root.setColor(Color.BLACK);
+  }
+
+  private void fixTreeDelete(Node x) {
+    while (x != root && x.getColor() == Color.BLACK) {
+      if (x == x.getParent().getLeftChild()) {
+        Node w = x.getParent().getRightChild();
+
+        if (w.getColor() == Color.RED) {
+          w.setColor(Color.BLACK);
+          x.getParent().setColor(Color.RED);
+          rotateLeft(x.getParent());
+          w = x.getParent().getRightChild();
+        }
+
+        // or null ??
+        if (w.getLeftChild().getColor() == Color.BLACK && w.getRightChild().getColor() == Color.BLACK) {
+          w.setColor(Color.RED);
+          x = x.getParent();
+        } else if (w.getRightChild().getColor() == Color.BLACK) {
+          w.getLeftChild().setColor(Color.BLACK);
+          w.setColor(Color.RED);
+          rotateRight(w);
+          w = x.getParent().getRightChild();
+        }
+
+        w.setColor(x.getParent().getColor());
+        x.getParent().setColor(Color.BLACK);
+        w.getRightChild().setColor(Color.BLACK);
+        rotateLeft(x.getParent());
+        x = root;
+      } else {
+        Node w = x.getParent().getLeftChild();
+
+        if (w.getColor() == Color.RED) {
+          w.setColor(Color.BLACK);
+          x.getParent().setColor(Color.RED);
+          rotateRight(x.getParent());
+          w = x.getParent().getLeftChild();
+        }
+
+        // or null ??
+        if (w.getLeftChild().getColor() == Color.BLACK && w.getRightChild().getColor() == Color.BLACK) {
+          w.setColor(Color.RED);
+          x = x.getParent();
+        } else if (w.getLeftChild().getColor() == Color.BLACK) {
+          w.getRightChild().setColor(Color.BLACK);
+          w.setColor(Color.RED);
+          rotateLeft(w);
+          w = x.getParent().getLeftChild();
+        }
+
+        w.setColor(x.getParent().getColor());
+        x.getParent().setColor(Color.BLACK);
+        w.getLeftChild().setColor(Color.BLACK);
+        rotateRight(x.getParent());
+        x = root;
+      }
+    }
+
+    x.setColor(Color.BLACK);
   }
 
   private void changeColorForAncestors(Node parent, Node uncle, Node grandparent) {
@@ -166,6 +260,27 @@ public class RedBlackTree {
 
     leftChild.setRightChild(node);
     node.setParent(leftChild);
+  }
+
+  private void transplant(Node parent, Node child) {
+    if (parent.getParent() == null) {
+      root = child;
+    } else if (parent == parent.getParent().getLeftChild()) {
+      parent.getParent().setLeftChild(child);
+    } else if (parent == parent.getParent().getRightChild()) {
+      parent.getParent().setRightChild(child);
+    }
+  }
+
+  private Node treeMinimum(Node node) {
+    Node minNode = node;
+
+    while (node.getLeftChild() != null) {
+      minNode = node.getLeftChild();
+      node = node.getLeftChild();
+    }
+
+    return minNode;
   }
 
   // TODO: remove method below and implement correct toString() method for Red-Black Tree
