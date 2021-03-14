@@ -17,11 +17,12 @@ public class Translator {
       numbers.add(letterToNumberMap.get(letter));
     }
 
-    return String.join(" ", numbers);
+    return String.join("", numbers);
   }
 
+  // TODO: rewrite for all possible combinations
   public static String translateToWord(String number) {
-    String[] numbers = number.split(" ");
+    String[] numbers = number.split("");
     List<String> letters = new ArrayList<>();
 
     for (String num : numbers) {

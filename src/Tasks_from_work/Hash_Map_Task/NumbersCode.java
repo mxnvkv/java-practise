@@ -1,7 +1,5 @@
 package Tasks_from_work.Hash_Map_Task;
 
-import java.util.Objects;
-
 public class NumbersCode {
   private String code;
 
@@ -26,9 +24,6 @@ public class NumbersCode {
 
   @Override
   public int hashCode() {
-    int hash = 12;
-    hash = 31 * hash + (code == null ? 0 : Objects.hash(code));
-
-    return hash;
+    return code.hashCode();
   }
 }
