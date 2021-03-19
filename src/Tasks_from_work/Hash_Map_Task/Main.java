@@ -1,17 +1,17 @@
 package Tasks_from_work.Hash_Map_Task;
 
-import java.util.Hashtable;
-
 public class Main {
   public static void main(String[] args) {
-    Hashtable<NumbersCode, String> hashMap = new Hashtable<>();
+    HashMapWrapper hashMap = new HashMapWrapper();
 
-    hashMap.put(new NumbersCode("5852"), "luck");
-    hashMap.put(new NumbersCode("5852"), "juck");
-    hashMap.put(new NumbersCode("27753"), "apple");
-    hashMap.put(new NumbersCode("672643"), "orange");
-    hashMap.put(new NumbersCode("5852"), "kuck");
+    hashMap.add("5852", "luck");
+    hashMap.add("5852", "juck");
+    hashMap.add("27753", "apple");
+    hashMap.add("6262", "nana");
+    hashMap.add("672643", "orange");
+    hashMap.add("5852", "kuck");
+    hashMap.add("6262", "obob");
 
-    System.out.println(hashMap.size());
+    System.out.println(hashMap.get("5852"));
   }
 }
