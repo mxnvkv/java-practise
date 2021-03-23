@@ -10,8 +10,9 @@ public class Main {
   public static void main(String[] args) throws IOException {
     putWordToHashMap(readFromNumbersCodeFile());
 
+    hashMap.createDictionary();
     // change numbersCode here
-    System.out.println(hashMap.get("3629"));
+    System.out.println(hashMap.get("6262"));
   }
 
   private static void putWordToHashMap(ArrayList<String> arrayList) {

@@ -1,5 +1,6 @@
 package Tasks_from_work.Hash_Map_Task;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,5 +31,26 @@ public class HashMapWrapper {
     hashMap.entrySet().forEach(entry -> {
       System.out.println(entry.getKey() + " " + entry.getValue());
     });
+  }
+
+  public void createDictionary() {
+    try {
+      File fout = new File("src/Tasks_from_work/Hash_Map_Task/dictionary.txt");
+      FileOutputStream fos = new FileOutputStream(fout);
+
+      OutputStreamWriter osw = new OutputStreamWriter(fos);
+
+      hashMap.entrySet().forEach(entry -> {
+        try {
+          osw.write(entry.getKey() + " - " + entry.getValue() + "\n");
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      });
+
+      osw.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
