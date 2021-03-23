@@ -2,6 +2,7 @@ package Tasks_from_work.Hash_Map_Task;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 public class HashMapWrapper {
@@ -22,6 +23,12 @@ public class HashMapWrapper {
     }
   }
 
+  public void add (String numbersCode, ArrayList<String> list) {
+    NumbersCode code = new NumbersCode(numbersCode);
+
+    hashMap.put(code, list);
+  }
+
   public ArrayList<String> get(String numbersCode) {
     NumbersCode code = new NumbersCode(numbersCode);
     return hashMap.get(code);
@@ -33,24 +40,24 @@ public class HashMapWrapper {
     });
   }
 
-  public void createDictionary() {
-    try {
-      File fout = new File("src/Tasks_from_work/Hash_Map_Task/dictionary.txt");
-      FileOutputStream fos = new FileOutputStream(fout);
-
-      OutputStreamWriter osw = new OutputStreamWriter(fos);
-
-      hashMap.entrySet().forEach(entry -> {
-        try {
-          osw.write(entry.getKey() + " - " + entry.getValue() + "\n");
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      });
-
-      osw.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+  // public void createDictionary() {
+  //   try {
+  //     File fout = new File("src/Tasks_from_work/Hash_Map_Task/dictionary.txt");
+  //     FileOutputStream fos = new FileOutputStream(fout);
+  //
+  //     OutputStreamWriter osw = new OutputStreamWriter(fos);
+  //
+  //     hashMap.entrySet().forEach(entry -> {
+  //       try {
+  //         osw.write(entry.getKey() + " - " + entry.getValue() + "\n");
+  //       } catch (IOException e) {
+  //         e.printStackTrace();
+  //       }
+  //     });
+  //
+  //     osw.close();
+  //   } catch (Exception e) {
+  //     e.printStackTrace();
+  //   }
+  // }
 }
