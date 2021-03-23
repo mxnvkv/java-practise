@@ -3,12 +3,12 @@ package com.tasks.Tasks_from_work.Hash_Map_Task;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
-  private HashMap<NumbersCode, ArrayList<String>> hashMap = new HashMap();
+  private HashMap<NumbersCode, List<String>> hashMap = new HashMap();
 
   Main() {}
 
@@ -19,12 +19,12 @@ public class Main {
   public static void main(String[] args) {
     Main main = new Main("src/com/tasks/Tasks_from_work/Hash_Map_Task/dictionary.txt");
 
-    ArrayList<String> list = main.find("6262");
+    List<String> list = main.find("6262");
 
     list.forEach(System.out::println);
   }
 
-  private ArrayList<String> find(String code) {
+  private List<String> find(String code) {
     return hashMap.get(new NumbersCode(code));
   }
 
@@ -38,7 +38,7 @@ public class Main {
         String[] parts = line.split(" - ");
         String code = parts[0];
         String[] array = parts[1].replaceAll("\\p{P}","").split(" ");
-        ArrayList<String> list = new ArrayList<>(Arrays.asList(array));
+        List<String> list = Arrays.asList(array);
 
         this.hashMap.put(new NumbersCode(code), list);
       }
