@@ -1,1 +1,1 @@
-If you see this line, that means "Tasks_from_work file for cmd line app".txt was opened successfully
+If you see this line, that means "com.tasks.work.Tasks_from_work file for cmd line app".txt was opened successfully
