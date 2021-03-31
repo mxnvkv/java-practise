@@ -19,6 +19,11 @@ public class FuriosPig {
   public void escape() {
     while (!hasPigEscaped()) {
       movePig();
+
+      if (!isPigStillAlive()) {
+        System.out.println("Unfortunately, pig has died from starvation");
+        break;
+      }
     }
   }
 
@@ -55,5 +60,9 @@ public class FuriosPig {
 
   private boolean hasPigEscaped() {
     return pigPosition == positiveN || pigPosition == negativeN;
+  }
+
+  private boolean isPigStillAlive() {
+    return stepsCounter < MAX_STEPS;
   }
 }
