@@ -42,14 +42,14 @@ public class FuriosPig {
 
   private void goLeft() {
     this.increaseStepsCounter();
-    this.adjustPigSpeed();
     pigPosition -= pigSpeed;
+    this.adjustPigSpeed();
   }
 
   private void goRight() {
     this.increaseStepsCounter();
-    this.adjustPigSpeed();
     pigPosition += pigSpeed;
+    this.adjustPigSpeed();
   }
 
   private boolean hasPigEscaped() {
