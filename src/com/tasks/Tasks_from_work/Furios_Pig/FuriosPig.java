@@ -7,6 +7,7 @@ public class FuriosPig {
   private int negativeN;
   private int stepsCounter = 0;
   private int pigPosition = 0;
+  private int pigSpeed = 1;
   private final int MAX_STEPS = 10_000_000;
 
   FuriosPig() {}
@@ -40,29 +41,46 @@ public class FuriosPig {
   }
 
   private void goLeft() {
-    stepsCounter++;
-    pigPosition--;
+    this.increaseStepsCounter();
+    this.adjustPigSpeed();
+    pigPosition -= pigSpeed;
   }
 
   private void goRight() {
-    stepsCounter++;
-    pigPosition++;
-  }
-
-  private void printStepData() {
-    System.out.println(String.format(
-      "-N: %d, position: %d, N: %d",
-      negativeN,
-      pigPosition,
-      positiveN
-    ));
+    this.increaseStepsCounter();
+    this.adjustPigSpeed();
+    pigPosition += pigSpeed;
   }
 
   private boolean hasPigEscaped() {
-    return pigPosition == positiveN || pigPosition == negativeN;
+    return pigPosition >= positiveN || pigPosition <= negativeN;
   }
 
   private boolean isPigStillAlive() {
     return stepsCounter < MAX_STEPS;
+  }
+
+  private void adjustPigSpeed() {
+    if (pigPosition > 0) {
+      pigSpeed *= 2;
+    } else if (pigPosition < 0) {
+      pigSpeed = pigSpeed > 1
+        ? pigSpeed / 2
+        : pigSpeed;
+    }
+  }
+
+  private void increaseStepsCounter() {
+    stepsCounter++;
+  }
+
+  private void printStepData() {
+    System.out.printf(
+      "-N: %d, position: %d, speed: %d, N: %d%n",
+      negativeN,
+      pigPosition,
+      pigSpeed,
+      positiveN
+    );
   }
 }
