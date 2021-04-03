@@ -1,5 +1,6 @@
 package com.tasks.Tasks_from_work.Furios_Pig;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class FuriosPig {
@@ -9,6 +10,7 @@ public class FuriosPig {
   private int pigPosition = 0;
   private int pigSpeed = 1;
   private final int MAX_STEPS = 10_000_000;
+  private final int ITERATIONS = 1_000_000;
 
   FuriosPig() {}
 
@@ -17,7 +19,20 @@ public class FuriosPig {
     this.negativeN = -Math.abs(n);
   }
 
-  public void escape() {
+  public void getExpectedSteps() {
+    ArrayList<Integer> list = new ArrayList<>();
+
+    for (int i = 0; i < ITERATIONS; i++) {
+      escape();
+      list.add(stepsCounter);
+      resetPigData();
+    }
+
+    Double average = list.stream().mapToInt(i -> i).average().orElse(0.0);
+    System.out.println(average);
+  }
+
+  private void escape() {
     while (!hasPigEscaped()) {
       movePig();
 
@@ -33,23 +48,21 @@ public class FuriosPig {
 
     if (random.nextBoolean()) {
       goLeft();
-      printStepData();
     } else {
       goRight();
-      printStepData();
     }
   }
 
   private void goLeft() {
-    this.increaseStepsCounter();
+    increaseStepsCounter();
     pigPosition -= pigSpeed;
-    this.adjustPigSpeed();
+    adjustPigSpeed();
   }
 
   private void goRight() {
-    this.increaseStepsCounter();
+    increaseStepsCounter();
     pigPosition += pigSpeed;
-    this.adjustPigSpeed();
+    adjustPigSpeed();
   }
 
   private boolean hasPigEscaped() {
@@ -72,6 +85,12 @@ public class FuriosPig {
 
   private void increaseStepsCounter() {
     stepsCounter++;
+  }
+
+  private void resetPigData() {
+    stepsCounter = 0;
+    pigPosition = 0;
+    pigSpeed = 1;
   }
 
   private void printStepData() {
