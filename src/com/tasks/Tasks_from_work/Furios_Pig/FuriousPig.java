@@ -3,7 +3,7 @@ package com.tasks.Tasks_from_work.Furios_Pig;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class FuriosPig {
+public class FuriousPig {
   private int positiveN;
   private int negativeN;
   private int stepsCounter = 0;
@@ -12,9 +12,9 @@ public class FuriosPig {
   private final int MAX_STEPS = 10_000_000;
   private final int ITERATIONS = 1_000_000;
 
-  FuriosPig() {}
+  FuriousPig() {}
 
-  FuriosPig(int n) {
+  FuriousPig(int n) {
     this.positiveN = Math.abs(n);
     this.negativeN = -Math.abs(n);
   }
