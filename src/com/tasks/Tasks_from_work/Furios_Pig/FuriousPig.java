@@ -9,7 +9,7 @@ public class FuriousPig {
   private int stepsCounter = 0;
   private int pigPosition = 0;
   private int pigSpeed = 1;
-  private final int MAX_STEPS = 10_000_000;
+  private final int MAX_STEPS = 10;
   private final int ITERATIONS = 1_000_000;
 
   FuriousPig() {}
@@ -17,6 +17,14 @@ public class FuriousPig {
   FuriousPig(int n) {
     this.positiveN = Math.abs(n);
     this.negativeN = -Math.abs(n);
+  }
+
+  public int getAllPaths() {
+    int pathCounter = 0;
+    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
+    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
+
+    return leftPaths + rightPaths;
   }
 
   public void getExpectedSteps() {
@@ -30,6 +38,38 @@ public class FuriousPig {
 
     Double average = list.stream().mapToInt(i -> i).average().orElse(0.0);
     System.out.println(average);
+  }
+
+  private int getLeftPath(int pigPosition, int pigSpeed, int stepsCounter, int pathCounter) {
+    if (!isPigStillAlive(stepsCounter) || hasPigEscaped(pigPosition)) {
+      return 0;
+    }
+
+    stepsCounter++;
+    pathCounter++;
+    pigPosition -= pigSpeed;
+    pigSpeed = adjustPigSpeed(pigSpeed, pigPosition);
+
+    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
+    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
+
+    return leftPaths + rightPaths;
+  }
+
+  private int getRightPath(int pigPosition, int pigSpeed, int stepsCounter, int pathCounter) {
+    if (!isPigStillAlive(stepsCounter) || hasPigEscaped(pigPosition)) {
+      return pathCounter;
+    }
+
+    stepsCounter++;
+    pathCounter++;
+    pigPosition += pigSpeed;
+    pigSpeed = adjustPigSpeed(pigSpeed, pigPosition);
+
+    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
+    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
+
+    return leftPaths + rightPaths;
   }
 
   private void escape() {
@@ -69,7 +109,15 @@ public class FuriousPig {
     return pigPosition >= positiveN || pigPosition <= negativeN;
   }
 
+  private boolean hasPigEscaped(int pigPosition) {
+    return pigPosition >= positiveN || pigPosition <= negativeN;
+  }
+
   private boolean isPigStillAlive() {
+    return stepsCounter < MAX_STEPS;
+  }
+
+  private boolean isPigStillAlive(int stepsCounter) {
     return stepsCounter < MAX_STEPS;
   }
 
@@ -81,6 +129,20 @@ public class FuriousPig {
         ? pigSpeed / 2
         : pigSpeed;
     }
+  }
+
+  private int adjustPigSpeed(int pigSpeed, int pigPosition) {
+    int adjustedSpeed = pigSpeed;
+
+    if (pigPosition > 0) {
+      adjustedSpeed *= 2;
+    } else if (pigPosition < 0) {
+      adjustedSpeed = pigSpeed > 1
+        ? pigSpeed / 2
+        : pigSpeed;
+    }
+
+    return adjustedSpeed;
   }
 
   private void increaseStepsCounter() {
