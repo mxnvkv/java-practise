@@ -20,9 +20,8 @@ public class FuriousPig {
   }
 
   public int getAllPaths() {
-    int pathCounter = 0;
-    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
-    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
+    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter);
+    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter);
 
     return leftPaths + rightPaths;
   }
@@ -40,7 +39,7 @@ public class FuriousPig {
     System.out.println(average);
   }
 
-  private int getLeftPath(int pigPosition, int pigSpeed, int stepsCounter, int pathCounter) {
+  private int getLeftPath(int pigPosition, int pigSpeed, int stepsCounter) {
     if (!isPigStillAlive(stepsCounter)) {
       System.out.println("pig is dead");
       return 0;
@@ -51,17 +50,17 @@ public class FuriousPig {
     pigSpeed = adjustPigSpeed(pigSpeed, pigPosition);
 
     if (hasPigEscaped(pigPosition)) {
-      System.out.println("pig position: " + pigPosition + ", speed: " + pigSpeed + ", steps: " + stepsCounter);
+      System.out.println(String.format("position: %d, speed: %d, steps: %d", pigPosition, pigSpeed, stepsCounter));
       return 1;
     }
 
-    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
-    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
+    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter);
+    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter);
 
     return leftPaths + rightPaths;
   }
 
-  private int getRightPath(int pigPosition, int pigSpeed, int stepsCounter, int pathCounter) {
+  private int getRightPath(int pigPosition, int pigSpeed, int stepsCounter) {
     if (!isPigStillAlive(stepsCounter)) {
       System.out.println("pig is dead");
       return 0;
@@ -72,12 +71,12 @@ public class FuriousPig {
     pigSpeed = adjustPigSpeed(pigSpeed, pigPosition);
 
     if (hasPigEscaped(pigPosition)) {
-      System.out.println("pig position: " + pigPosition + ", speed: " + pigSpeed + ", steps: " + stepsCounter);
+      System.out.println(String.format("position: %d, speed: %d, steps: %d", pigPosition, pigSpeed, stepsCounter));
       return 1;
     }
 
-    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
-    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
+    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter);
+    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter);
 
     return leftPaths + rightPaths;
   }
