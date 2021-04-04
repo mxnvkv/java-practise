@@ -41,14 +41,19 @@ public class FuriousPig {
   }
 
   private int getLeftPath(int pigPosition, int pigSpeed, int stepsCounter, int pathCounter) {
-    if (!isPigStillAlive(stepsCounter) || hasPigEscaped(pigPosition)) {
+    if (!isPigStillAlive(stepsCounter)) {
+      System.out.println("pig is dead");
       return 0;
     }
 
     stepsCounter++;
-    pathCounter++;
     pigPosition -= pigSpeed;
     pigSpeed = adjustPigSpeed(pigSpeed, pigPosition);
+
+    if (hasPigEscaped(pigPosition)) {
+      System.out.println("pig position: " + pigPosition + ", speed: " + pigSpeed + ", steps: " + stepsCounter);
+      return 1;
+    }
 
     int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
     int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
@@ -57,14 +62,19 @@ public class FuriousPig {
   }
 
   private int getRightPath(int pigPosition, int pigSpeed, int stepsCounter, int pathCounter) {
-    if (!isPigStillAlive(stepsCounter) || hasPigEscaped(pigPosition)) {
-      return pathCounter;
+    if (!isPigStillAlive(stepsCounter)) {
+      System.out.println("pig is dead");
+      return 0;
     }
 
     stepsCounter++;
-    pathCounter++;
     pigPosition += pigSpeed;
     pigSpeed = adjustPigSpeed(pigSpeed, pigPosition);
+
+    if (hasPigEscaped(pigPosition)) {
+      System.out.println("pig position: " + pigPosition + ", speed: " + pigSpeed + ", steps: " + stepsCounter);
+      return 1;
+    }
 
     int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
     int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter, pathCounter);
