@@ -24,10 +24,16 @@ public class FuriousPig {
     getLeftPath(pigPosition, pigSpeed, stepsCounter);
     getRightPath(pigPosition, pigSpeed, stepsCounter);
 
-    double multiplier = 1.0 / list.size();
     double expectedSteps = 0;
 
     for (int i = 0; i < list.size(); i++) {
+      System.out.println(String.format(
+        "position: %d, speed: %d, steps: %d",
+        list.get(i).get(0),
+        list.get(i).get(1),
+        list.get(i).get(2)
+      ));
+      double multiplier = 1.0 / Math.pow(2, list.get(i).get(2));
       expectedSteps += multiplier * list.get(i).get(2);
     }
 
