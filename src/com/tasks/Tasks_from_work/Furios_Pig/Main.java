@@ -4,7 +4,7 @@ public class Main {
   public static void main(String[] args) {
     // for N = 10, pig will have to make between ~50.5 and ~51.5 steps
     FuriousPig pig = new FuriousPig(2);
-    // pig.getExpectedSteps();
     pig.getExpectedStepsV1();
+    // pig.getExpectedStepsV2();
   }
 }

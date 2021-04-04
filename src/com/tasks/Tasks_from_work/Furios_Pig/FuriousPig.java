@@ -1,10 +1,7 @@
 package com.tasks.Tasks_from_work.Furios_Pig;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class FuriousPig {
   private int positiveN;
@@ -31,13 +28,6 @@ public class FuriousPig {
     double expectedSteps = 0;
 
     for (int i = 0; i < list.size(); i++) {
-      System.out.println(String.format(
-        "position: %d, speed: %d, steps: %d",
-        list.get(i).get(0),
-        list.get(i).get(1),
-        list.get(i).get(2)
-      ));
-
       expectedSteps += multiplier * list.get(i).get(2);
     }
 
@@ -54,7 +44,7 @@ public class FuriousPig {
     }
 
     Double average = list.stream().mapToInt(i -> i).average().orElse(0.0);
-    System.out.println(average);
+    System.out.println("Expected steps: " + average);
   }
 
   private void getLeftPath(int pigPosition, int pigSpeed, int stepsCounter) {
@@ -110,7 +100,6 @@ public class FuriousPig {
       movePig();
 
       if (!isPigStillAlive()) {
-        System.out.println("Unfortunately, pig has died from starvation");
         break;
       }
     }
