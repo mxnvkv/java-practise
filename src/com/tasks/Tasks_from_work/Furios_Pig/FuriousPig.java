@@ -1,7 +1,10 @@
 package com.tasks.Tasks_from_work.Furios_Pig;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class FuriousPig {
   private int positiveN;
@@ -9,6 +12,7 @@ public class FuriousPig {
   private int stepsCounter = 0;
   private int pigPosition = 0;
   private int pigSpeed = 1;
+  private ArrayList<ArrayList<Integer>> list = new ArrayList<>();
   private final int MAX_STEPS = 10;
   private final int ITERATIONS = 1_000_000;
 
@@ -19,14 +23,28 @@ public class FuriousPig {
     this.negativeN = -Math.abs(n);
   }
 
-  public int getAllPaths() {
-    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter);
-    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter);
+  public void getExpectedStepsV1() {
+    getLeftPath(pigPosition, pigSpeed, stepsCounter);
+    getRightPath(pigPosition, pigSpeed, stepsCounter);
 
-    return leftPaths + rightPaths;
+    double multiplier = 1.0 / list.size();
+    double expectedSteps = 0;
+
+    for (int i = 0; i < list.size(); i++) {
+      System.out.println(String.format(
+        "position: %d, speed: %d, steps: %d",
+        list.get(i).get(0),
+        list.get(i).get(1),
+        list.get(i).get(2)
+      ));
+
+      expectedSteps += multiplier * list.get(i).get(2);
+    }
+
+    System.out.println("Expected steps: " + expectedSteps);
   }
 
-  public void getExpectedSteps() {
+  public void getExpectedStepsV2() {
     ArrayList<Integer> list = new ArrayList<>();
 
     for (int i = 0; i < ITERATIONS; i++) {
@@ -39,10 +57,9 @@ public class FuriousPig {
     System.out.println(average);
   }
 
-  private int getLeftPath(int pigPosition, int pigSpeed, int stepsCounter) {
+  private void getLeftPath(int pigPosition, int pigSpeed, int stepsCounter) {
     if (!isPigStillAlive(stepsCounter)) {
-      System.out.println("pig is dead");
-      return 0;
+      return;
     }
 
     stepsCounter++;
@@ -50,20 +67,23 @@ public class FuriousPig {
     pigSpeed = adjustPigSpeed(pigSpeed, pigPosition);
 
     if (hasPigEscaped(pigPosition)) {
-      System.out.println(String.format("position: %d, speed: %d, steps: %d", pigPosition, pigSpeed, stepsCounter));
-      return 1;
+      ArrayList<Integer> dataList = new ArrayList<>();
+      dataList.add(pigPosition);
+      dataList.add(pigSpeed);
+      dataList.add(stepsCounter);
+
+      list.add(dataList);
+
+      return;
     }
 
-    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter);
-    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter);
-
-    return leftPaths + rightPaths;
+    getLeftPath(pigPosition, pigSpeed, stepsCounter);
+    getRightPath(pigPosition, pigSpeed, stepsCounter);
   }
 
-  private int getRightPath(int pigPosition, int pigSpeed, int stepsCounter) {
+  private void getRightPath(int pigPosition, int pigSpeed, int stepsCounter) {
     if (!isPigStillAlive(stepsCounter)) {
-      System.out.println("pig is dead");
-      return 0;
+      return;
     }
 
     stepsCounter++;
@@ -71,14 +91,18 @@ public class FuriousPig {
     pigSpeed = adjustPigSpeed(pigSpeed, pigPosition);
 
     if (hasPigEscaped(pigPosition)) {
-      System.out.println(String.format("position: %d, speed: %d, steps: %d", pigPosition, pigSpeed, stepsCounter));
-      return 1;
+      ArrayList<Integer> dataList = new ArrayList<>();
+      dataList.add(pigPosition);
+      dataList.add(pigSpeed);
+      dataList.add(stepsCounter);
+
+      list.add(dataList);
+
+      return;
     }
 
-    int leftPaths = getLeftPath(pigPosition, pigSpeed, stepsCounter);
-    int rightPaths = getRightPath(pigPosition, pigSpeed, stepsCounter);
-
-    return leftPaths + rightPaths;
+    getLeftPath(pigPosition, pigSpeed, stepsCounter);
+    getRightPath(pigPosition, pigSpeed, stepsCounter);
   }
 
   private void escape() {
