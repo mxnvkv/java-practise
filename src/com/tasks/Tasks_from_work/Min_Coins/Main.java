@@ -9,50 +9,21 @@ public class Main {
   private static final int MONEY_COUNT = 100;
 
   public static void main(String[] args) {
-    getMinAmountOfCoins();
-    System.out.println(coins);
+    System.out.println(getMinAmountOfCoins());
   }
 
-  private static void getMinAmountOfCoins() {
+  private static int getMinAmountOfCoins() {
     for (int i = 1; i <= MONEY_COUNT; i++) {
       int amount = i;
 
-      // go through list, try to find all necessary coins for the amount
       if (!doWeHaveEnoughCoins(amount, coins)) {
-        // if we lack of them, get list of necessary coins for the amount,
-        // remove from it coins that we have and add remaining to the current list
+        // get list of necessary coins, subtract from it list with coins that
+        // we already have, and add remaining of them into coins list
         coins.addAll(subtract(getListOfNecessaryCoins(amount), coins));
       }
-
-    }
-  }
-
-  private static int getMaxCoinForAmount(int amount) {
-    int maxCoin = COINS_DENOMINATION[0];
-
-    // assuming that coins sorted in ascending order
-    for (int j = (COINS_DENOMINATION.length - 1); j >= 0; j--) {
-      if (COINS_DENOMINATION[j] <= amount) {
-        maxCoin = COINS_DENOMINATION[j];
-        break;
-      }
     }
 
-    return maxCoin;
-  }
-
-  private static int getMaxCoinForAmount(int amount, List<Integer> coinsList) {
-    int maxCoin = coinsList.get(0);
-
-    // assuming that coins sorted in ascending order
-    for (int j = (coinsList.size() - 1); j >= 0; j--) {
-      if (coinsList.get(j) <= amount) {
-        maxCoin = coinsList.get(j);
-        break;
-      }
-    }
-
-    return maxCoin;
+    return coins.size();
   }
 
   private static boolean doWeHaveEnoughCoins(int amount, List<Integer> coinsList) {
@@ -86,5 +57,33 @@ public class Main {
     coinsList.forEach(necessaryCoinsList::remove);
 
     return necessaryCoinsList;
+  }
+
+  private static int getMaxCoinForAmount(int amount) {
+    int maxCoin = COINS_DENOMINATION[0];
+
+    // assuming that coins sorted in ascending order
+    for (int j = (COINS_DENOMINATION.length - 1); j >= 0; j--) {
+      if (COINS_DENOMINATION[j] <= amount) {
+        maxCoin = COINS_DENOMINATION[j];
+        break;
+      }
+    }
+
+    return maxCoin;
+  }
+
+  private static int getMaxCoinForAmount(int amount, List<Integer> coinsList) {
+    int maxCoin = coinsList.get(0);
+
+    // assuming that coins sorted in ascending order
+    for (int j = (coinsList.size() - 1); j >= 0; j--) {
+      if (coinsList.get(j) <= amount) {
+        maxCoin = coinsList.get(j);
+        break;
+      }
+    }
+
+    return maxCoin;
   }
 }
