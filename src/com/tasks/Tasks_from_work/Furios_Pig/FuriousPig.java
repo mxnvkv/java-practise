@@ -76,6 +76,13 @@ public class FuriousPig {
                 array[s][v][j] = 1;
               }
             }
+
+          // if the next step is last
+          } else if (s == array.length - 1) {
+            double leftPathValue = nextPositionLeft == 0 ? 1 : 0;
+            double rightPathValue = nextPositionRight == array[s][v].length - 1 ? 1 : 0;
+
+            array[s][v][k] = (multiplier * leftPathValue) + (multiplier * rightPathValue);
           } else {
             double leftPathValue = array[nextSteps][nextSpeed][nextPositionLeft];
             double rightPathValue = array[nextSteps][nextSpeed][nextPositionRight];
