@@ -1,6 +1,7 @@
 package com.tasks.Tasks_from_work.Furios_Pig;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -49,95 +50,101 @@ public class FuriousPig {
   }
 
   public void getExpectedStepsV3() {
-    List<List<List<Double>>> list = fillList();
+    double[][][] array = fillArray();
+    double multiplier = 1.0 / 2;
 
-    // s - steps
-    // v - speed
-    // k - position
+    // from 0 steps to maximum possible
+    for (int s = 0; s < array.length; s++) {
 
-    for (int s = 0; s < MAX_STEPS; s++) {
-      for (int v = 0; Math.pow(2, v) <= (2 * positiveN); v++) {
-        for (int k = negativeN + 1; k < positiveN; k++) {
-          int index = k + positiveN;
-          double multiplier = 1.0 / 2;
-          double speed = Math.pow(2, v);
-          double nextStepSpeed = k >= 0 ? Math.pow(2, v + 2) : Math.max(speed / 2, 1); // v
+      // from 0 to 2n ( speed = 2^v )
+      for (int v = 0; v < array[s].length - 1; v++) {
 
-          // s + 1 always
-          // v = k >= 0 ? v * 2 : Math.max(v / 2, 1)
-          // k = k + v || k - v
+        // from -N to N ( both exclusively )
+        for (int k = 1; k < array[s][v].length - 1; k++) {
+          int nextSteps = s + 1;
+          int nextSpeed = getNextSpeed(array[s], k, v);
+          double speedCalculated = k < array[s][v].length / 2
+            ? Math.max(Math.pow(2, v - 1), 1)
+            : Math.pow(2, v + 1);
+          int nextPositionLeft = getNextPositionForLeft(speedCalculated, k);
+          int nextPositionRight = getNextPositionForRight(speedCalculated, k, array[s][v]);
 
-          list.get(s).get(v).remove(index);
-          list.get(s).get(v).add(
-            index,
-            multiplier * list.get(s + 1).get(getSpeedIndex(k, v, list.get(s).get(v))).get(getPositionIndex((int) (index - nextStepSpeed)))
-              + multiplier * list.get(s + 1).get(getSpeedIndex(k, v, list.get(s).get(v))).get(getPositionIndex((int) (index + nextStepSpeed)))
-          );
-          // list.get(s).get(v).add(index, -1.0);
+          // if we have max speed
+          if (v == array[s].length - 2) {
+            for (int i = 0; i < array[s].length; i++) {
+              for (int j = 0; j < array[s][v].length; j++){
+                array[s][v][j] = 1;
+              }
+            }
+          } else {
+            double leftPathValue = array[nextSteps][nextSpeed][nextPositionLeft];
+            double rightPathValue = array[nextSteps][nextSpeed][nextPositionRight];
 
-          // list.get(s).get(v).remove(index);
-          // list.get(s).get(v).add(
-          //   index,
-          //   (multiplier * list.get(s + 1).get((int) speed).get((int) (k - speed))
-          //     + multiplier * list.get(s + 1).get((int) speed).get((int) (k + speed)))
-          // );
+            array[s][v][k] = (multiplier * leftPathValue) + (multiplier * rightPathValue);
+          }
         }
 
         System.out.println(String.format(
-          "Steps: %d, speed: %f, list of positions: %s",
+          "Steps: %d, speed: %f, positions: %s",
           s,
           Math.pow(2, v),
-          list.get(s).get(v)
+          Arrays.toString(array[s][v])
         ));
       }
     }
   }
 
-  private List<List<List<Double>>> fillList() {
-    List<List<List<Double>>> list = new ArrayList<>();
+  public double[][][] fillArray() {
+    double[][][] array = new double[MAX_STEPS][2 * positiveN][2 * positiveN + 1];
 
-    for (int iS = 0; iS <= MAX_STEPS; iS++) {
-      List<List<Double>> listS = new ArrayList<>();
-      list.add(listS);
-      for (int iV = 0; Math.pow(2, iV) <= (2 * positiveN); iV++) {
-        List<Double> listV = new ArrayList<>();
-        list.get(iS).add(listV);
-        for (int iK = negativeN; iK <= positiveN; iK++) {
-          list.get(iS).get(iV).add(0.0);
-        }
-
-        list.get(iS).get(iV).remove(0);
-        list.get(iS).get(iV).add(0, 1.0);
-        list.get(iS).get(iV).remove(list.get(iS).get(iV).size() - 1);
-        list.get(iS).get(iV).add(1.0);
+    for (int s = 0; s < array.length; s++) {
+      for (int v = 0; v < array[s].length; v++) {
+        array[s][v][0] = 1;
+        array[s][v][array[s][v].length - 1] = 1;
       }
     }
 
-    return list;
+    return array;
   }
 
-  private int getSpeedIndex(int k, int v, List<Double> list) {
-    int index;
+  private int getNextSpeed(double[][] array, int k, int v) {
+    int nextSpeed;
 
-    if (k >= 0) {
-      index = Math.min(v + 1, list.size() - 1);
+    if (k < array.length / 2) {
+      nextSpeed = Math.max(v - 1, 0);
     } else {
-      index = Math.max(v - 1, 0);
+      nextSpeed = Math.min(v + 1, array[0].length);
     }
 
-    return index;
+    // if (nextSpeed >= array[0].length) {
+    //   nextSpeed = array[0].length - 1;
+    // }
+
+    return nextSpeed;
   }
 
-  private int getPositionIndex(int position) {
-    int indexPosition;
+  private int getNextPositionForLeft(double speed, int position) {
+    int nextPosition;
 
-    if (position < 0) {
-      indexPosition = 0;
+    if (position - speed < 0) {
+      nextPosition = 0;
     } else {
-      indexPosition = positiveN;
+      nextPosition = (int) (position - speed);
     }
 
-    return indexPosition;
+    return nextPosition;
+  }
+
+  private int getNextPositionForRight(double speed, int position, double[] posArray) {
+    int nextPosition;
+
+    if (position + speed >= posArray.length) {
+      nextPosition = posArray.length - 1;
+    } else {
+      nextPosition = (int) (position + speed);
+    }
+
+    return nextPosition;
   }
 
   private void getLeftPath(int pigPosition, int pigSpeed, int stepsCounter) {
