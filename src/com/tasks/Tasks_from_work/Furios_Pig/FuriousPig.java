@@ -54,7 +54,7 @@ public class FuriousPig {
     double multiplier = 1.0 / 2;
 
     // from 0 steps to maximum possible
-    for (int s = 0; s < array.length; s++) {
+    for (int s = array.length - 1; s >= 0; s--) {
 
       // from 0 to 2n ( speed = 2^v )
       for (int v = 0; v < array[s].length - 1; v++) {
@@ -63,9 +63,7 @@ public class FuriousPig {
         for (int k = 1; k < array[s][v].length - 1; k++) {
           int nextSteps = s + 1;
           int nextSpeed = getNextSpeed(array[s], k, v);
-          double speedCalculated = k < array[s][v].length / 2
-            ? Math.max(Math.pow(2, v - 1), 1)
-            : Math.pow(2, v + 1);
+          double speedCalculated = Math.pow(2, v);
           int nextPositionLeft = getNextPositionForLeft(speedCalculated, k);
           int nextPositionRight = getNextPositionForRight(speedCalculated, k, array[s][v]);
 
