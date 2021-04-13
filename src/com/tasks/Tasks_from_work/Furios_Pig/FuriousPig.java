@@ -12,7 +12,7 @@ public class FuriousPig {
   private int pigPosition = 0;
   private int pigSpeed = 1;
   private ArrayList<ArrayList<Integer>> list = new ArrayList<>();
-  private final int MAX_STEPS = 10;
+  private final int MAX_STEPS = 50;
   private final int ITERATIONS = 1_000_000;
 
   FuriousPig() {}
@@ -57,7 +57,7 @@ public class FuriousPig {
     for (int s = array.length - 1; s >= 0; s--) {
 
       // from 0 to 2n ( speed = 2^v )
-      for (int v = 0; v < array[s].length - 1; v++) {
+      for (int v = 0; Math.pow(2, v) <= 2 * positiveN; v++) {
 
         // from -N to N ( both exclusively )
         for (int k = 1; k < array[s][v].length - 1; k++) {
